@@ -2,15 +2,14 @@ pritter formate :
 
 npm run prettier
 
+run the server:
 
-run the server: 
+- node .\dist\server.js
 
- node .\dist\server.js
+Better way of running the server:
 
- Better way of running the server: 
+- ts-node-dev --respawn --transpile-only src/server.ts
 
- ts-node-dev --respawn --transpile-only src/server.ts
+now i will create script for it so it becomes easier:
 
- now i will create script for it so it becomes easier:
-
- 
+- npm run start:dev
