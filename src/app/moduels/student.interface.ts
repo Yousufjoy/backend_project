@@ -1,5 +1,10 @@
 import { Schema, model, connect } from 'mongoose'
 
+export type UserName = {
+  firstName: string
+  middleName: string
+  lastName: string
+}
 export type gurdian = {
   fatherName: string
   fatherOccupation: string
@@ -7,12 +12,6 @@ export type gurdian = {
   motherName: string
   motherOccupation: string
   motherContactNo: string
-}
-
-export type UserName = {
-  firstName: string
-  middleName: string
-  lastName: string
 }
 
 export type LocalGurdian = {
