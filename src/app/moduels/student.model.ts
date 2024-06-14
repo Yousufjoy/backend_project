@@ -86,5 +86,5 @@ const studentSchema = new Schema<Student>({
 
 
 // 3. Create a Model.
-const User = model<Student>('User', studentSchema); // Student= type, schema = studentSchema, name = User same as the const value
+export const StudentModel = model<Student>('User', studentSchema); // Student= type, schema = studentSchema, name = User same as the const value
 
