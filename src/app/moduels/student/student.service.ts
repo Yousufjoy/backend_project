@@ -7,7 +7,19 @@ const creatStudentIntoDb = async (student: Student) => {
   return result
 }
 
+const getAllStudentsFromDbB = async () => {
+  const result = await StudentModel.find()
+  return result
+}
+
+const getSingleStudent = async (id: string) => {
+  const result = await StudentModel.findOne({ id })
+  return result
+}
+
 // Controller theke jeno call dite pari!!
 export const StudentServices = {
   creatStudentIntoDb,
+  getAllStudentsFromDbB,
+  getSingleStudent,
 }

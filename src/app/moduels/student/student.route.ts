@@ -10,5 +10,8 @@ const router = express.Router()
 //will call controller function
 router.post('/create-student', StudentControllers.createStudent)
 
+router.get('/', StudentControllers.getAllStudents)
+
+router.get('/:studentId', StudentControllers.getSingleStudent)
 // Amra object dibo na karon router nijei ekta object
 export const StudentRouts = router

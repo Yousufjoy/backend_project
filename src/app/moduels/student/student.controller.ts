@@ -20,8 +20,39 @@ const createStudent = async (req: Request, res: Response) => {
   }
 }
 
+const getAllStudents = async (req: Request, res: Response) => {
+  try {
+    const result = await StudentServices.getAllStudentsFromDbB()
+    res.status(200).json({
+      success: true,
+      message: 'Students are retrived successfully',
+      data: result,
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const getSingleStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentId } = req.params
+    console.log(studentId)
+    const result = StudentServices.getSingleStudent(studentId)
+
+    res.status(200).json({
+      success: true,
+      message: 'Student Found!!!',
+      data: result,
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // Controller k export korte hobe jeno route etake use korte pare
 
 export const StudentControllers = {
   createStudent,
+  getAllStudents,
+  getSingleStudent,
 }
