@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { StudentServices } from './student.service'
-import Joi from 'Joi'
-import { UserName, LocalGurdian, Student, gurdian } from '../student.interface'
-import studentSchema from './student.validation'
+import { z } from 'zod'
+import studentValidationSchema from '../student.validation.zod'
+
+// import studentSchema from './student.validation'
 
 // Amra keno controller e keno kortesi model e na?: Karon joi nijei ekta schema r amader data gulo ashtese controller theke client pathacche controller maddhome recieve hocche
 
@@ -12,10 +13,16 @@ const createStudent = async (req: Request, res: Response) => {
   try {
     // const student = req.body.student
     const { student: studentData } = req.body
-    const { error, value } = studentSchema.validate(studentData)
-    console.log(error, value)
+
+    // Data validation using zod
+
+    const zodParseData = studentValidationSchema.parse(studentData)
+
+    // data validation using Joi
+    // const { error, value } = studentSchema.validate(studentData)
+
     //will call service function to send this data
-    const result = await StudentServices.creatStudentIntoDb(studentData)
+    const result = await StudentServices.creatStudentIntoDb(zodParseData)
     //User k : send response
     res.status(200).json({
       success: true,
