@@ -2,12 +2,13 @@ import { Schema, model, connect } from 'mongoose'
 import {
   TLocalGurdian,
   TStudent,
-  StudentMethods,
   StudentModel,
   TUserName,
   Tgurdian,
 } from './student.interface'
 import validator from 'validator'
+import bcrypt from 'bcrypt'
+import config from '../config'
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -87,6 +88,12 @@ const localGurdianSchema = new Schema<TLocalGurdian>({
 const studentSchema = new Schema<TStudent, StudentModel>({
   //<Student> generic = dynamically type define kore arguemnt hisebe niye
   id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
+  password: {
+    type: String,
+    unique: true,
+    required: true,
+    maxlength: [20, 'Cannnot be more than 20 characters'],
+  },
   name: {
     type: userNameSchema,
     required: true,
@@ -133,6 +140,33 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+})
+
+// pre save middleweare/ hook: will work on create() save()
+
+studentSchema.pre('save', async function (next) {
+  // Data save howar age password k hash korbo!!
+  const user = this
+
+  if (user.isModified('password')) {
+    try {
+      user.password = await bcrypt.hash(
+        user.password,
+        Number(config.bcrypt_salt_rounds),
+      )
+    } catch (error) {
+      return next()
+    }
+  }
+
+  console.log(this, 'pre hook: we will save our data')
+  next()
+})
+
+// post save middlewear / hook
+
+studentSchema.post('save', function () {
+  console.log(this, 'post hook: will save our data')
 })
 
 // Creating a custom static method

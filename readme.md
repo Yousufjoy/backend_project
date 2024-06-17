@@ -13,3 +13,8 @@ Better way of running the server:
 now i will create script for it so it becomes easier:
 
 - npm run start:dev
+
+
+Moongoose middleware:
+
+document save kora pore or age kaj korbe

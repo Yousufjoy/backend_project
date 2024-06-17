@@ -37,6 +37,7 @@ const localGurdianValidationSchema = z.object({
 // Define the Student schema
 const studentValidationSchema = z.object({
   id: z.string(),
+  password: z.string(),
   name: userNameValidationSchema,
   gender: z.enum(['male', 'female'], {
     errorMap: (issue, _ctx) => {
