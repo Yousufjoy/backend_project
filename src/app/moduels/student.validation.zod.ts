@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { LocalGurdian, Student, UserName } from './student.interface'
+import { TLocalGurdian, TStudent, TUserName } from './student.interface'
 
 // Define the UserName schema
 const userNameValidationSchema = z.object({

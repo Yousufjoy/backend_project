@@ -1,7 +1,14 @@
 import { Schema, model, connect } from 'mongoose'
-import { LocalGurdian, Student, UserName, gurdian } from './student.interface'
+import {
+  TLocalGurdian,
+  TStudent,
+  StudentMethods,
+  StudentModel,
+  TUserName,
+  Tgurdian,
+} from './student.interface'
 import validator from 'validator'
-const userNameSchema = new Schema<UserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'], // custon required!
@@ -29,7 +36,7 @@ const userNameSchema = new Schema<UserName>({
   },
 })
 
-const gurdianSchema = new Schema<gurdian>({
+const gurdianSchema = new Schema<Tgurdian>({
   fatherName: {
     type: String,
     trim: true,
@@ -57,7 +64,7 @@ const gurdianSchema = new Schema<gurdian>({
   },
 })
 
-const localGurdianSchema = new Schema<LocalGurdian>({
+const localGurdianSchema = new Schema<TLocalGurdian>({
   name: {
     type: String,
     required: true,
@@ -77,7 +84,7 @@ const localGurdianSchema = new Schema<LocalGurdian>({
 })
 
 // 2. Create a Schema corresponding to the document interface.
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   //<Student> generic = dynamically type define kore arguemnt hisebe niye
   id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
   name: {
@@ -128,5 +135,14 @@ const studentSchema = new Schema<Student>({
   },
 })
 
+studentSchema.methods.isUserExists = async function name(id: String) {
+  const existingUser = await Student.findOne({
+    id: id,
+  })
+  return existingUser
+}
+
 // 3. Create a Model.
-export const StudentModel = model<Student>('User', studentSchema) // Student= type, schema = studentSchema, name = User same as the const value
+export const Student = model<TStudent, StudentModel>('User', studentSchema) // Student= type, schema = studentSchema, name = User same as the const value
+
+// In this code we tried to see weather a user exists or not
