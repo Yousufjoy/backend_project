@@ -162,7 +162,6 @@ studentSchema.pre('save', async function (next) {
     }
   }
 
-  console.log(this, 'pre hook: we will save our data')
   next()
 })
 
@@ -176,7 +175,8 @@ studentSchema.post('save', function (doc, next) {
 // Query middleware
 
 studentSchema.pre('find', function (next) {
-  this.find
+  // this.find
+  next()
 })
 
 // Creating a custom static method
