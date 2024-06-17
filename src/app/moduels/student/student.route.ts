@@ -12,6 +12,8 @@ router.post('/create-student', StudentControllers.createStudent)
 
 router.get('/', StudentControllers.getAllStudents)
 
+router.delete('/:studentId', StudentControllers.deleteStudent)
+
 router.get('/:studentId', StudentControllers.getSingleStudent)
 // Amra object dibo na karon router nijei ekta object
 export const StudentRouts = router

@@ -91,7 +91,6 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   password: {
     type: String,
     unique: true,
-    required: true,
     maxlength: [20, 'Cannnot be more than 20 characters'],
   },
   name: {
@@ -140,6 +139,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // pre save middleweare/ hook: will work on create() save()
@@ -166,8 +169,14 @@ studentSchema.pre('save', async function (next) {
 // post save middlewear / hook: Document save howar porer jinis
 
 studentSchema.post('save', function (doc, next) {
-  doc.password = '' // password r db te dekhabe na 
+  doc.password = '' // password r db te dekhabe na
   next()
+})
+
+// Query middleware
+
+studentSchema.pre('find', function (next) {
+  this.find
 })
 
 // Creating a custom static method

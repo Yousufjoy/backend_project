@@ -38,6 +38,7 @@ export type TStudent = {
   localGurdian: TLocalGurdian
   profileImage?: string //Db te url rakhbo tai string
   isActive: 'active' | 'blocked'
+  isDeleted: boolean
 }
 
 // For creating static
