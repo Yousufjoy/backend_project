@@ -5,6 +5,7 @@ const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'], // custon required!
+    maxlength: [20, 'Name Cannot be more than 20 characters'],
   },
   middleName: {
     type: String,
@@ -19,6 +20,7 @@ const userNameSchema = new Schema<UserName>({
 const gurdianSchema = new Schema<gurdian>({
   fatherName: {
     type: String,
+    trim: true,
     required: true,
   },
   fatherOccupation: {
