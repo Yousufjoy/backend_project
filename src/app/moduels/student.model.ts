@@ -84,7 +84,7 @@ const localGurdianSchema = new Schema<TLocalGurdian>({
 })
 
 // 2. Create a Schema corresponding to the document interface.
-const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   //<Student> generic = dynamically type define kore arguemnt hisebe niye
   id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
   name: {
@@ -135,12 +135,21 @@ const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   },
 })
 
-studentSchema.methods.isUserExists = async function name(id: String) {
-  const existingUser = await Student.findOne({
-    id: id,
-  })
+// Creating a custom static method
+
+studentSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await Student.findOne({ id })
+
   return existingUser
 }
+
+//Creating a custom instance method
+// studentSchema.methods.isUserExists = async function name(id: String) {
+//   const existingUser = await Student.findOne({
+//     id: id,
+//   })
+//   return existingUser
+// }
 
 // 3. Create a Model.
 export const Student = model<TStudent, StudentModel>('User', studentSchema) // Student= type, schema = studentSchema, name = User same as the const value
