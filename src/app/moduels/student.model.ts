@@ -6,6 +6,15 @@ const userNameSchema = new Schema<UserName>({
     type: String,
     required: [true, 'First name is required'], // custon required!
     maxlength: [20, 'Name Cannot be more than 20 characters'],
+    // What i am doing in this function if user givse something like this " RahIM  " it will conver to "Rahim"
+    validate: function (value: string) {
+      const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1)
+      if (value !== firstNameStr) {
+        return false
+      }
+      return true
+     
+    },  //Normal function use korbo karon this keyword use kora lagte pare
   },
   middleName: {
     type: String,
