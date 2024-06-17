@@ -85,64 +85,81 @@ const localGurdianSchema = new Schema<TLocalGurdian>({
 })
 
 // 2. Create a Schema corresponding to the document interface.
-const studentSchema = new Schema<TStudent, StudentModel>({
-  //<Student> generic = dynamically type define kore arguemnt hisebe niye
-  id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
-  password: {
-    type: String,
-    unique: true,
-    maxlength: [20, 'Cannnot be more than 20 characters'],
-  },
-  name: {
-    type: userNameSchema,
-    required: true,
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ['male', 'female'],
-      message: '{VALUE} is not valid', // {VALUE} = user theke dynamic value pawa
+const studentSchema = new Schema<TStudent, StudentModel>(
+  {
+    //<Student> generic = dynamically type define kore arguemnt hisebe niye
+    id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
+    password: {
+      type: String,
+      unique: true,
+      maxlength: [20, 'Cannnot be more than 20 characters'],
     },
-    required: true,
-  }, // enum : mongoose e ekta type ase jeita k bole enum koyekta value theke jekono ekta ney
-  dateOfBirth: { type: String, required: true },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: '{VALUE} is not a valid email type',
+    name: {
+      type: userNameSchema,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['male', 'female'],
+        message: '{VALUE} is not valid', // {VALUE} = user theke dynamic value pawa
+      },
+      required: true,
+    }, // enum : mongoose e ekta type ase jeita k bole enum koyekta value theke jekono ekta ney
+    dateOfBirth: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: (value: string) => validator.isEmail(value),
+        message: '{VALUE} is not a valid email type',
+      },
+    },
+    contactNo: { type: String, required: true },
+    emergencyContactNo: { type: String, required: true },
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
+    presentAddress: { type: String, required: true },
+    parmanentAddress: { type: String, required: true },
+    gurdian: {
+      type: gurdianSchema,
+      required: true,
+    },
+    localGurdian: {
+      type: localGurdianSchema,
+      required: true,
+    },
+    profileImage: {
+      type: String,
+    },
+    isActive: {
+      type: String,
+      enum: ['active', 'blocked'],
+      default: 'active',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
     },
   },
-  contactNo: { type: String, required: true },
-  emergencyContactNo: { type: String, required: true },
-  bloodGroup: {
-    type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  presentAddress: { type: String, required: true },
-  parmanentAddress: { type: String, required: true },
-  gurdian: {
-    type: gurdianSchema,
-    required: true,
-  },
-  localGurdian: {
-    type: localGurdianSchema,
-    required: true,
-  },
-  profileImage: {
-    type: String,
-  },
-  isActive: {
-    type: String,
-    enum: ['active', 'blocked'],
-    default: 'active',
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
+)
+
+// Virtual
+
+studentSchema.virtual('fullName').get(function () {
+  return (
+    `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
+  )
+   
+  
 })
 
 // pre save middleweare/ hook: will work on create() save()
