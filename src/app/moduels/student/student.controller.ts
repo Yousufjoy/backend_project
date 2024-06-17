@@ -1,10 +1,15 @@
 import { Request, Response } from 'express'
 import { StudentServices } from './student.service'
+import Joi from 'Joi'
+
+// Amra keno controller e keno kortesi model e na?: Karon joi nijei ekta schema r amader data gulo ashtese controller theke client pathacche controller maddhome recieve hocche
 
 //Handle korbe application logic, sudhu request/response handle korbe kivabe ashtese data mongodb/prisma etc eita dekhar bishoy na oita korbe service
 
 const createStudent = async (req: Request, res: Response) => {
   try {
+    //Creating a schema validation using joi
+
     // const student = req.body.student
     const { student: studentData } = req.body
     //will call service function to send this data

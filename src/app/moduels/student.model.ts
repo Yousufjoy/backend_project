@@ -1,6 +1,6 @@
 import { Schema, model, connect } from 'mongoose'
 import { LocalGurdian, Student, UserName, gurdian } from './student.interface'
-
+import validator from 'validator'
 const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
@@ -13,8 +13,7 @@ const userNameSchema = new Schema<UserName>({
         return false
       }
       return true
-     
-    },  //Normal function use korbo karon this keyword use kora lagte pare
+    }, //Normal function use korbo karon this keyword use kora lagte pare
   },
   middleName: {
     type: String,
@@ -23,6 +22,10 @@ const userNameSchema = new Schema<UserName>({
   lastName: {
     type: String,
     required: [true, 'last name is requred'],
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: '{VALUE} is not valid',
+    },
   },
 })
 
@@ -90,7 +93,15 @@ const studentSchema = new Schema<Student>({
     required: true,
   }, // enum : mongoose e ekta type ase jeita k bole enum koyekta value theke jekono ekta ney
   dateOfBirth: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (value: string) => validator.isEmail(value),
+      message: '{VALUE} is not a valid email type',
+    },
+  },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
   bloodGroup: {
