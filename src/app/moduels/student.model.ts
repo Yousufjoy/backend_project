@@ -145,8 +145,8 @@ const studentSchema = new Schema<TStudent, StudentModel>({
 // pre save middleweare/ hook: will work on create() save()
 
 studentSchema.pre('save', async function (next) {
-  // Data save howar age password k hash korbo!!
-  const user = this
+  // Data save howar age password k hash korbo!!Pre: Document save howar ager jinis
+  const user = this // current doc
 
   if (user.isModified('password')) {
     try {
@@ -163,10 +163,11 @@ studentSchema.pre('save', async function (next) {
   next()
 })
 
-// post save middlewear / hook
+// post save middlewear / hook: Document save howar porer jinis
 
-studentSchema.post('save', function () {
-  console.log(this, 'post hook: will save our data')
+studentSchema.post('save', function (doc, next) {
+  doc.password = '' // password r db te dekhabe na 
+  next()
 })
 
 // Creating a custom static method
