@@ -1,5 +1,6 @@
-import { Schema, model, models } from 'mongoose';
-import { TUser } from './user.interface';
+import { Schema, model, models } from 'mongoose'
+import { TUser } from './user.interface'
+// import config from '../../config'
 
 const userSchema = new Schema<TUser>(
   {
@@ -9,7 +10,8 @@ const userSchema = new Schema<TUser>(
     },
     password: {
       type: String,
-      required: true,
+      unique: true,
+      maxlength: [20, 'Cannot be more than 20 characters'],
     },
     needsPasswordChange: {
       type: Boolean,
@@ -39,12 +41,35 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true,
-  }
-);
+  },
+)
 
-const User = models.User || model<TUser>('User', userSchema);
+const User = models.User || model<TUser>('User', userSchema)
 
-export { User };
+// userSchema.pre('save', async function (next) {
+//   const user = this
+//   if (user.isModified('password')) {
+//     try {
+//       user.password = await bcrypt.hash(
+//         user.password,
+//         Number(config.bcrypt_salt_rounds),
+//       )
+//     } catch (error) {
+//       return next()
+//     }
+//   }
+//   next()
+// })
+
+// userSchema.post('save', function (doc, next) {
+//   doc.password = ''
+//   next()
+// })
+
+// userSchema.pre('find', function (next) {
+//   next()
+// })
+
+export { User }
 
 
-//5.29

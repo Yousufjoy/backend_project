@@ -7,8 +7,8 @@ import {
   TGuardian,
 } from './student.interface'
 import validator from 'validator'
-import bcrypt from 'bcrypt'
-import config from '../../config'
+
+
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -84,11 +84,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
     id: { type: String, required: true, unique: true },
-    password: {
-      type: String,
-      unique: true,
-      maxlength: [20, 'Cannot be more than 20 characters'],
-    },
+
     user: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
@@ -152,30 +148,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 
 studentSchema.virtual('fullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
-})
-
-studentSchema.pre('save', async function (next) {
-  const user = this
-  if (user.isModified('password')) {
-    try {
-      user.password = await bcrypt.hash(
-        user.password,
-        Number(config.bcrypt_salt_rounds),
-      )
-    } catch (error) {
-      return next()
-    }
-  }
-  next()
-})
-
-studentSchema.post('save', function (doc, next) {
-  doc.password = ''
-  next()
-})
-
-studentSchema.pre('find', function (next) {
-  next()
 })
 
 studentSchema.statics.isUserExists = async function (id: string) {

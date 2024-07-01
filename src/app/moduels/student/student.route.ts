@@ -8,9 +8,6 @@ const router = express.Router()
 
 // router object er upor vitti kore get/post/patch/delte etc korbo
 
-//will call controller function
-router.post('/create-student', StudentControllers.createStudent)
-
 router.get('/', StudentControllers.getAllStudents)
 
 router.delete('/:studentId', StudentControllers.deleteStudent)
