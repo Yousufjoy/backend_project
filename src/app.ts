@@ -12,8 +12,8 @@ app.use(cors())
 
 //api/v1/students/create-student
 // application routs
-app.use('/api/v1/students', StudentRouts)
-// app.use('/api/v1/users', UserRoutes)
+// app.use('/api/v1/students', StudentRouts)
+app.use('/api/v1/users', UserRoutes)
 
 app.get('/', (req: Request, res: Response) => {
   let a = 22

@@ -23,7 +23,7 @@ export type TLocalGuardian = {
 
 // 1. Create an interface representing a document in MongoDB.
 export type TStudent = {
-  // user: any
+  user: any
   id: string
   password: string
   name: TUserName
