@@ -2,31 +2,21 @@ import config from '../../config'
 import { TStudent } from '../student/student.interface'
 import { Student } from '../student/student.model'
 import { TUser } from './user.interface'
-
-import { userModel } from './user.model'
+import { User } from './user.model'
 
 const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   // Create a user object
-  const userData: Partial<TUser> = {} // Jehetu sob gulo key lagtese na
-
-  // as password is optional, if password not given , use default password
-  if (!password) {
-    userData.password = config.default_password as string
-  } else {
-    userData.password = password
+  const userData: Partial<TUser> = {
+    role: 'student',
+    password: password || config.default_password as string,
+    id: '2030100001'
   }
 
-  // set student role
-  userData.role = 'student'
-
-  // Set manually generated id
-  userData.id = '2030100001'
-
   // create a user
-  const newUser = await userModel.create(userData) // Similar to resutl
+  const newUser = await User.create(userData) // Similar to result
 
   // create a student
-  if (Object.keys(newUser).length) {
+  if (newUser) {
     // Making it array so that we can use length property
     // set id , _id
     studentData.id = newUser.id // This is the embeded id of student
@@ -39,6 +29,6 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   return newUser
 }
 
-export const userServices = {
+export const UserService = {
   createStudentIntoDB,
 }

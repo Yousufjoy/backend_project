@@ -1,4 +1,4 @@
-import { Schema, model, connect, Model } from 'mongoose'
+import { Schema, model, connect, Model, Types } from 'mongoose'
 
 export type TUserName = {
   firstName: string
@@ -23,8 +23,9 @@ export type TLocalGuardian = {
 
 // 1. Create an interface representing a document in MongoDB.
 export type TStudent = {
-  user: any
+
   id: string
+  user: Types.ObjectId
   password: string
   name: TUserName
   gender: 'male' | 'female'

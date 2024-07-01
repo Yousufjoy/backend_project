@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { StudentServices } from './student.service'
 
-import studentValidationSchema from './student.validation.zod'
+// import studentValidationSchema from './student.validation.zod'
 
 // import studentSchema from './student.validation'
 
@@ -15,27 +15,27 @@ import studentValidationSchema from './student.validation.zod'
 // const result = await ProductServices.createProductIntoDB(zodParsedData);
 // // send response
 
-const createStudent = async (req: Request, res: Response) => {
-  try {
-    const studentData = req.body.data
+// const createStudent = async (req: Request, res: Response) => {
+//   try {
+//     const studentData = req.body.data
 
-    const result = await StudentServices.creatStudentIntoDb(studentData)
+//     const result = await StudentServices.creatStudentIntoDb(studentData)
 
-    res.status(200).json({
-      success: true,
-      message: 'Student is created successfully!',
-      data: result,
-    })
-  } catch (err: any) {
-    {
-      res.status(500).json({
-        success: false,
-        message: err.message || 'Somethig went wrong',
-        error: err,
-      })
-    }
-  }
-}
+//     res.status(200).json({
+//       success: true,
+//       message: 'Student is created successfully!',
+//       data: result,
+//     })
+//   } catch (err: any) {
+//     {
+//       res.status(500).json({
+//         success: false,
+//         message: err.message || 'Somethig went wrong',
+//         error: err,
+//       })
+//     }
+//   }
+// }
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
@@ -102,7 +102,7 @@ const getSingleStudent = async (req: Request, res: Response) => {
 // Controller k export korte hobe jeno route etake use korte pare
 
 export const StudentControllers = {
-  createStudent,
+  // createStudent,
   getAllStudents,
   getSingleStudent,
   deleteStudent,
