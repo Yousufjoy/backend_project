@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose'
-import { TUser } from './user.interface'
+import { Schema, model, models } from 'mongoose';
+import { TUser } from './user.interface';
 
 const userSchema = new Schema<TUser>(
   {
@@ -11,7 +11,6 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
-
     needsPasswordChange: {
       type: Boolean,
       default: true,
@@ -22,6 +21,7 @@ const userSchema = new Schema<TUser>(
         values: ['admin', 'student', 'faculty'],
         message: '{VALUE} not found',
       },
+      required: true,
     },
     status: {
       type: String,
@@ -29,6 +29,8 @@ const userSchema = new Schema<TUser>(
         values: ['in-progress', 'blocked'],
         message: '{VALUE} not found',
       },
+      default: 'in-progress',
+      required: true,
     },
     isDeleted: {
       type: Boolean,
@@ -37,7 +39,9 @@ const userSchema = new Schema<TUser>(
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
-export const userModel = model<TUser>('User', userSchema)
+const userModel = models.User || model<TUser>('User', userSchema);
+
+export { userModel };

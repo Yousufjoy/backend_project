@@ -5,7 +5,7 @@ export type TUserName = {
   middleName?: string
   lastName: string
 }
-export type Tgurdian = {
+export type TGuardian = {
   fatherName: string
   fatherOccupation: string
   fatherContactNo: string
@@ -14,7 +14,7 @@ export type Tgurdian = {
   motherContactNo: string
 }
 
-export type TLocalGurdian = {
+export type TLocalGuardian = {
   name: string
   occupation: string
   contactNo: string
@@ -23,6 +23,7 @@ export type TLocalGurdian = {
 
 // 1. Create an interface representing a document in MongoDB.
 export type TStudent = {
+  // user: any
   id: string
   password: string
   name: TUserName
@@ -34,8 +35,8 @@ export type TStudent = {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'
   presentAddress: string
   parmanentAddress: string
-  gurdian: Tgurdian
-  localGurdian: TLocalGurdian
+  guardian: TGuardian
+  localGuardian: TLocalGuardian
   profileImage?: string //Db te url rakhbo tai string
   isActive: 'active' | 'blocked'
   isDeleted: boolean

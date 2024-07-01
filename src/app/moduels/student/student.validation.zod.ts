@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { TLocalGurdian, TStudent, TUserName } from './student.interface'
+import { TLocalGuardian, TStudent, TUserName } from './student.interface'
 
 // Define the UserName schema
 const userNameValidationSchema = z.object({
@@ -16,8 +16,8 @@ const userNameValidationSchema = z.object({
   }),
 })
 
-// Define the Gurdian schema
-const gurdianValidationSchema = z.object({
+// Define the Guardian schema
+const guardianValidationSchema = z.object({
   fatherName: z.string().trim(),
   fatherOccupation: z.string(),
   fatherContactNo: z.string(),
@@ -26,8 +26,8 @@ const gurdianValidationSchema = z.object({
   motherContactNo: z.string(),
 })
 
-// Define the LocalGurdian schema
-const localGurdianValidationSchema = z.object({
+// Define the LocalGuardian schema
+const localGuardianValidationSchema = z.object({
   name: z.string(),
   occupation: z.string(),
   contactNo: z.string(),
@@ -52,9 +52,9 @@ const studentValidationSchema = z.object({
     .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
     .optional(),
   presentAddress: z.string(),
-  parmanentAddress: z.string(),
-  gurdian: gurdianValidationSchema,
-  localGurdian: localGurdianValidationSchema,
+  permanentAddress: z.string(),
+  guardian: guardianValidationSchema,
+  localGuardian: localGuardianValidationSchema,
   profileImage: z.string().optional(),
   isActive: z.enum(['active', 'blocked']).default('active'),
   isDeleted: z.boolean(),

@@ -1,4 +1,3 @@
-
 export type TUser = {
   id: String
   password: String

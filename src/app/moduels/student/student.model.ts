@@ -1,35 +1,32 @@
 import { Schema, model, connect } from 'mongoose'
 import {
-  TLocalGurdian,
+  TLocalGuardian,
   TStudent,
   StudentModel,
   TUserName,
-  Tgurdian,
+  TGuardian,
 } from './student.interface'
 import validator from 'validator'
 import bcrypt from 'bcrypt'
 import config from '../../config'
+
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
-    required: [true, 'First name is required'], // custon required!
-    maxlength: [20, 'Name Cannot be more than 20 characters'],
-    // What i am doing in this function if user givse something like this " RahIM  " it will conver to "Rahim"
+    required: [true, 'First name is required'],
+    maxlength: [20, 'Name cannot be more than 20 characters'],
     validate: function (value: string) {
       const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1)
-      if (value !== firstNameStr) {
-        return false
-      }
-      return true
-    }, //Normal function use korbo karon this keyword use kora lagte pare
+      return value === firstNameStr
+    },
   },
   middleName: {
     type: String,
-    required: [true, 'Middle name is requred'],
+    required: [true, 'Middle name is required'],
   },
   lastName: {
     type: String,
-    required: [true, 'last name is requred'],
+    required: [true, 'Last name is required'],
     validate: {
       validator: (value: string) => validator.isAlpha(value),
       message: '{VALUE} is not valid',
@@ -37,7 +34,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 })
 
-const gurdianSchema = new Schema<Tgurdian>({
+const guardianSchema = new Schema<TGuardian>({
   fatherName: {
     type: String,
     trim: true,
@@ -65,7 +62,7 @@ const gurdianSchema = new Schema<Tgurdian>({
   },
 })
 
-const localGurdianSchema = new Schema<TLocalGurdian>({
+const localGuardianSchema = new Schema<TLocalGuardian>({
   name: {
     type: String,
     required: true,
@@ -84,15 +81,15 @@ const localGurdianSchema = new Schema<TLocalGurdian>({
   },
 })
 
-// 2. Create a Schema corresponding to the document interface.
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
-    //<Student> generic = dynamically type define kore arguemnt hisebe niye
-    id: { type: String, required: true, unique: true }, // unique: true :--duplicate value dibe na
+   
+
+    id: { type: String, required: true, unique: true },
     password: {
       type: String,
       unique: true,
-      maxlength: [20, 'Cannnot be more than 20 characters'],
+      maxlength: [20, 'Cannot be more than 20 characters'],
     },
     name: {
       type: userNameSchema,
@@ -100,12 +97,9 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     },
     gender: {
       type: String,
-      enum: {
-        values: ['male', 'female'],
-        message: '{VALUE} is not valid', // {VALUE} = user theke dynamic value pawa
-      },
+      enum: ['male', 'female'],
       required: true,
-    }, // enum : mongoose e ekta type ase jeita k bole enum koyekta value theke jekono ekta ney
+    },
     dateOfBirth: { type: String, required: true },
     email: {
       type: String,
@@ -113,7 +107,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       unique: true,
       validate: {
         validator: (value: string) => validator.isEmail(value),
-        message: '{VALUE} is not a valid email type',
+        message: '{VALUE} is not a valid email',
       },
     },
     contactNo: { type: String, required: true },
@@ -123,13 +117,13 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
     },
     presentAddress: { type: String, required: true },
-    parmanentAddress: { type: String, required: true },
-    gurdian: {
-      type: gurdianSchema,
+    parmanentAddress: { type: String },
+    guardian: {
+      type: guardianSchema,
       required: true,
     },
-    localGurdian: {
-      type: localGurdianSchema,
+    localGuardian: {
+      type: localGuardianSchema,
       required: true,
     },
     profileImage: {
@@ -152,22 +146,12 @@ const studentSchema = new Schema<TStudent, StudentModel>(
   },
 )
 
-// Virtual
-
 studentSchema.virtual('fullName').get(function () {
-  return (
-    `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
-  )
-   
-  
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
 })
 
-// pre save middleweare/ hook: will work on create() save()
-
 studentSchema.pre('save', async function (next) {
-  // Data save howar age password k hash korbo!!Pre: Document save howar ager jinis
-  const user = this // current doc
-
+  const user = this
   if (user.isModified('password')) {
     try {
       user.password = await bcrypt.hash(
@@ -178,41 +162,21 @@ studentSchema.pre('save', async function (next) {
       return next()
     }
   }
-
   next()
 })
-
-// post save middlewear / hook: Document save howar porer jinis
 
 studentSchema.post('save', function (doc, next) {
-  doc.password = '' // password r db te dekhabe na
+  doc.password = ''
   next()
 })
-
-// Query middleware
 
 studentSchema.pre('find', function (next) {
-  // this.find
   next()
 })
-
-// Creating a custom static method
 
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id })
-
   return existingUser
 }
 
-//Creating a custom instance method
-// studentSchema.methods.isUserExists = async function name(id: String) {
-//   const existingUser = await Student.findOne({
-//     id: id,
-//   })
-//   return existingUser
-// }
-
-// 3. Create a Model.
-export const Student = model<TStudent, StudentModel>('User', studentSchema) // Student= type, schema = studentSchema, name = User same as the const value
-
-// In this code we tried to see weather a user exists or not
+export const Student = model<TStudent, StudentModel>('Student', studentSchema)

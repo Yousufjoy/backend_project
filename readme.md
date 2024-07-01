@@ -18,3 +18,10 @@ now i will create script for it so it becomes easier:
 Moongoose middleware:
 
 document save kora pore or age kaj korbe
+
+
+Client theke kichu properties ashbe na
+
+id
+password (ashteo pare)
+role
