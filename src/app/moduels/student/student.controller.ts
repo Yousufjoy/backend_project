@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { StudentServices } from './student.service'
+import sendResponse from '../../utils/sendResponse'
+import httpStatus from 'http-status'
 
 // Amra keno controller e keno kortesi? model e na?: Karon joi nijei ekta schema r amader data gulo ashtese controller theke client pathacche controller maddhome recieve hocche
 
@@ -12,9 +14,10 @@ const getAllStudents = async (
 ) => {
   try {
     const result = await StudentServices.getAllStudentsFromDbB()
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: 'Students are retrived successfully',
+      message: 'Students Successfully',
       data: result,
     })
   } catch (err) {
@@ -33,9 +36,10 @@ const deleteStudent = async (
     const { studentId } = req.params
     const result = await StudentServices.deleteStudentFromDB(studentId)
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: 'Student deleted successfully',
+      message: 'Student Deleted Successfully',
       data: result,
     })
   } catch (err) {
@@ -52,12 +56,13 @@ const getSingleStudent = async (
 ) => {
   try {
     const { studentId } = req.params
-    // console.log(studentId)
+
     const result = await StudentServices.getSingleStudent(studentId)
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message: 'Student Found!!!',
+      message: 'Single Student data retrieved Successfully',
       data: result,
     })
   } catch (err) {
@@ -68,7 +73,6 @@ const getSingleStudent = async (
 }
 
 export const StudentControllers = {
-  // createStudent,
   getAllStudents,
   getSingleStudent,
   deleteStudent,
