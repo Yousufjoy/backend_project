@@ -1,9 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
-import { UserRoutes } from './app/moduels/user/user.route'
-import { StudentRouts } from './app/moduels/student/student.route'
 import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import notFound from './app/middlewares/notFound'
+import router from './app/routes'
 
 const app: Application = express()
 
@@ -12,10 +11,13 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-app.use('/api/v1/students', StudentRouts)
-app.use('/api/v1/users', UserRoutes)
+// The Main route
+app.use('/api/v1', router)
 
+//For testing
 app.get('/', (req: Request, res: Response) => {})
+
+
 //Handlig error
 app.use(globalErrorHandler)
 
