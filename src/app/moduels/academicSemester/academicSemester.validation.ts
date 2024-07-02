@@ -8,11 +8,11 @@ import {
 const createacademicSemesterValidationSchema = z.object({
   body: z.object({
     name: z.enum([...AcademicSemesterName] as [string, ...[]]), // string ..[] is zod type
-   }),
-  year: z.date(),
-  code: z.enum([...AcademicSemesterCode] as [string, ...[]]),
-  startMonth: z.enum([...Months] as [string, ...string[]]),
-  endMonth: z.enum([...Months] as [string, ...string[]]),
+    year: z.string(),
+    code: z.enum([...AcademicSemesterCode] as [string, ...[]]),
+    startMonth: z.enum([...Months] as [string, ...string[]]),
+    endMonth: z.enum([...Months] as [string, ...string[]]),
+  }),
 })
 
 export const academicSemesterValidation = {
