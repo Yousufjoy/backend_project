@@ -8,4 +8,3 @@ export type TUser = {
   createdAt: Date
   deletedAt: Date
 }
-

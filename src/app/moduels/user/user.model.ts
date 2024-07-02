@@ -71,5 +71,3 @@ const User = models.User || model<TUser>('User', userSchema)
 // })
 
 export { User }
-
-
