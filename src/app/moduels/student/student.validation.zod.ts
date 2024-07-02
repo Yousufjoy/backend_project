@@ -45,7 +45,7 @@ export const createstudentValidationSchema = z.object({
           return { message: `{VALUE} is not valid` }
         },
       }),
-      dateOfBirth: z.string(),
+      dateOfBirth: z.date().optional(),
       email: z.string().email('{VALUE} is not a valid email type'),
       contactNo: z.string(),
       emergencyContactNo: z.string(),

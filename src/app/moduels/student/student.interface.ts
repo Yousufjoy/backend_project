@@ -23,13 +23,12 @@ export type TLocalGuardian = {
 
 // 1. Create an interface representing a document in MongoDB.
 export type TStudent = {
-
   id: string
   user: Types.ObjectId
   password: string
   name: TUserName
   gender: 'male' | 'female'
-  dateOfBirth: string
+  dateOfBirth?: Date
   email: string
   contactNo: string
   emergencyContactNo: string
@@ -48,4 +47,3 @@ export type TStudent = {
 export interface StudentModel extends Model<TStudent> {
   isUserExists(id: string): Promise<TStudent | null>
 }
-
