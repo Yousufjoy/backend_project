@@ -8,8 +8,6 @@ import {
 } from './student.interface'
 import validator from 'validator'
 
-
-
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -89,7 +87,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
       unique: true,
-      ref: 'User'
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -100,7 +98,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       enum: ['male', 'female'],
       required: true,
     },
-    dateOfBirth: { type: String, required: true },
+    dateOfBirth: { type: Date },
     email: {
       type: String,
       required: true,
