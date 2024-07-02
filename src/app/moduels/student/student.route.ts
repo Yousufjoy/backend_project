@@ -1,5 +1,5 @@
 
-import express, { Request } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { StudentControllers } from './student.controller'
 
 // Express er function call kore router namer ekta object niye ashbo

@@ -1,10 +1,15 @@
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { userControllers } from './user.controller'
 
-// Express er function call kore router namer ekta object niye ashbo
+import { createstudentValidationSchema } from '../student/student.validation.zod'
+import validateRequest from '../../middlewares/validateRequest'
 
 const router = express.Router()
 
-router.post('/create-student', userControllers.createStudent)
+router.post(
+  '/create-student',
+  validateRequest(createstudentValidationSchema),
+  userControllers.createStudent,
+)
 
 export const UserRoutes = router

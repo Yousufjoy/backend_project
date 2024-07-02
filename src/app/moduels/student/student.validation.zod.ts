@@ -35,29 +35,31 @@ const localGuardianValidationSchema = z.object({
 })
 
 // Define the Student schema
-const studentValidationSchema = z.object({
-  id: z.string(),
-  password: z.string(),
-  name: userNameValidationSchema,
-  gender: z.enum(['male', 'female'], {
-    errorMap: (issue, _ctx) => {
-      return { message: `{VALUE} is not valid` }
-    },
+export const createstudentValidationSchema = z.object({
+  body: z.object({
+    password: z.string(),
+    student: z.object({
+      name: userNameValidationSchema,
+      gender: z.enum(['male', 'female'], {
+        errorMap: (issue, _ctx) => {
+          return { message: `{VALUE} is not valid` }
+        },
+      }),
+      dateOfBirth: z.string(),
+      email: z.string().email('{VALUE} is not a valid email type'),
+      contactNo: z.string(),
+      emergencyContactNo: z.string(),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+        .optional(),
+      presentAddress: z.string(),
+      permanentAddress: z.string(),
+      guardian: guardianValidationSchema,
+      localGuardian: localGuardianValidationSchema,
+      profileImage: z.string().optional(),
+    }),
   }),
-  dateOfBirth: z.string(),
-  email: z.string().email('{VALUE} is not a valid email type'),
-  contactNo: z.string(),
-  emergencyContactNo: z.string(),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional(),
-  presentAddress: z.string(),
-  permanentAddress: z.string(),
-  guardian: guardianValidationSchema,
-  localGuardian: localGuardianValidationSchema,
-  profileImage: z.string().optional(),
-  isActive: z.enum(['active', 'blocked']).default('active'),
-  isDeleted: z.boolean(),
 })
-
-export default studentValidationSchema
+export const studentValidations = {
+  createstudentValidationSchema,
+}
